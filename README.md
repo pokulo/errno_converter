@@ -72,7 +72,7 @@ No signal matched the input 'SIGIO.*' (module 'signal' has no attribute 'SIGIO.*
  29 - SIGIO          : I/O possible
   6 - SIGIOT         : Aborted
 
-$ signal_converter.py list|head
+$ signal_converter.py list
   1 - SIGHUP
   2 - SIGINT
 …
