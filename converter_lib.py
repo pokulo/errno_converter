@@ -27,7 +27,7 @@ class Converter(object):
 
     @classmethod
     def print_help(cls):
-        print("{cmd} [-v] list|<{name}-number>|<{name}-name>".format(cmd=sys.argv[0], name=self.NAME))
+        print("{cmd} [-v] list|<{name}-number>|<{name}-name>".format(cmd=sys.argv[0], name=cls.NAME))
 
     @classmethod
     def convert(cls, number=None, code=None, verbose=False):
