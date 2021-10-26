@@ -1,10 +1,10 @@
-# errno_converter & signal_converter
-As simple command line tool to convert error numbers (of **C errno.h**) and 
-**signal** numbers to human readable strings or back zu numbers. This tool makes
-makes use of `errno` and `signal` module of Python 3.8 standard library (Python 
-3.8 added support for verbose signal descriptions).
+# errno_converter & signal_converter & http_converter
+As simple command line tool to convert error numbers (of **C errno.h**), **signal**
+numbers and HTTP-Status-Codes to human readable strings or back to numbers.
+This tool makes use of `errno`, `signal` and `http` module of Python 3.8 
+standard library (Python 3.8 added support for verbose signal descriptions).
 
-## Usage of `errno_converter`:
+## Example usage of `errno_converter`:
 ```bash
 $ errno_converter.py
 ./dev/errno_converter/errno_converter.py [-v] list|<errno-number>|<errno-name>
@@ -46,7 +46,7 @@ $ errno_converter.py -v list
 invalids: {41, 58}
 ```
 
-## Usage of `signal_converter`:
+## Example usage of `signal_converter`:
 ```bash
 $ signal_converter.py
 signal_converter.py [-v] list|<errno-number>|<errno-name>
@@ -90,6 +90,7 @@ invalids: {16, 32, 33, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 4
 
 Example `.bashrc` alias:
 ```bash
-alias signal_converter="~/errno_converter/signal_converter.py"
-alias errno_converter="~/errno_converter/errno_converter.py"
+alias signal_converter="python3 ~/errno_converter/signal_converter.py"
+alias errno_converter="python3 ~/errno_converter/errno_converter.py"
+alias http_converter="python3 ~/errno_converter/http_converter.py"
 ```
