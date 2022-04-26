@@ -119,10 +119,10 @@ class Converter(object):
                 search = re.compile(code_or_number, flags=re.IGNORECASE)
                 for att in cls.get_candidates():
                     try:
-                        desc = cls.number2description(cls.code2number(att))
-                        if search.search(att) or search.search(desc) and bool(verbose_option):
-                            print(cls.convert(number=cls.code2number(att), code=att,
-                                              verbose=bool(verbose_option)))
+                        number = cls.code2number(att)
+                        desc = cls.number2description(number)
+                        if search.search(att) or search.search(str(number)) or search.search(desc) and bool(verbose_option):
+                            print(cls.convert(number=number, code=att, verbose=bool(verbose_option)))
                     except:
                         pass
 
