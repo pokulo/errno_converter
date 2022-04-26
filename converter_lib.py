@@ -1,8 +1,15 @@
 #!/usr/bin/env python3
 # coding=utf-8
-import sys
-import re
+
 from enum import Enum
+import logging
+import os
+import re
+import subprocess
+import sys
+
+
+logger = logging.getLogger(__name__)
 
 
 class Converter(object):
@@ -24,6 +31,20 @@ class Converter(object):
     @staticmethod
     def get_candidates():
         raise NotImplementedError
+
+    @classmethod
+    def print_version(cls):
+        """
+        Print Git project version by running ``git describe --tags`` in this project.
+        """
+
+        project_dir = os.path.dirname(__file__)
+        with open(os.devnull, 'wb') as devnull:
+            version = subprocess.check_output(['git', 'describe', '--tags'], stderr=devnull, cwd=project_dir)
+            version = version.rstrip()
+        if hasattr(version, 'decode'):
+            version = version.decode('utf-8')
+        print(f"{sys.argv[0]} version {version}")
 
     @classmethod
     def print_help(cls):
@@ -61,7 +82,11 @@ class Converter(object):
         verbose_option = sys.argv[1]
         if verbose_option == "-v":
             if len(sys.argv) < 3:
-                print_help()
+                try:
+                    cls.print_version()
+                except Exception as exc:
+                    logger.error(f"Printing version (git tag) ommited due to: {exc}")
+                    cls.print_help()
                 exit()
             code_or_number = sys.argv[2]
         else:
