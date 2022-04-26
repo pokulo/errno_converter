@@ -15,7 +15,7 @@ class HttpConverter(Converter):
 
     @staticmethod
     def code2number(code):
-        return getattr(http.HTTPStatus, code)
+        return getattr(http.HTTPStatus, code).value
 
     @staticmethod
     def get_candidates():
