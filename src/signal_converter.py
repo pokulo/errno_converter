@@ -24,5 +24,6 @@ class SignalConverter(Converter):
     def number2description(number):
         return signal.strsignal(signal.Signals(int(number)))  # Python3.8
 
+def main():
+    return SignalConverter.parse()
 
-SignalConverter.parse()

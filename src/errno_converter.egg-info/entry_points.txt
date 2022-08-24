@@ -1,0 +1,4 @@
+[console_scripts]
+errno_converter = errno_converter:main
+http_converter = http_converter:main
+signal_converter = signal_converter:main

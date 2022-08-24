@@ -25,6 +25,6 @@ class HttpConverter(Converter):
     def number2description(number):
         return http.HTTPStatus(int(number)).description
 
-
-HttpConverter.parse()
+def main():
+    return HttpConverter.parse()
 
