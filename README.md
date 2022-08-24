@@ -88,9 +88,7 @@ $ signal_converter.py -v list
 invalids: {16, 32, 33, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63}
 ```
 
-Example `.bashrc` alias:
+# Installation
 ```bash
-alias signal_converter="python3 ~/errno_converter/signal_converter.py"
-alias errno_converter="python3 ~/errno_converter/errno_converter.py"
-alias http_converter="python3 ~/errno_converter/http_converter.py"
+pip install errno-converter
 ```
