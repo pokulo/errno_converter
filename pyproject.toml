@@ -1,0 +1,22 @@
+[project]
+name = "errno_converter"
+version = "0.1.1"
+authors = [
+  { name="Heinrich Kießling", email="heinrich@kiess.link" },
+]
+description = "As simple command line tool to convert error numbers (of C errno.h), http status codes and signal numbers to human readable strings or back zu numbers."
+readme = "README.md"
+license = { file="Creative Commons Legal Code" }
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3.8",
+    "License :: CC0 1.0 Universal (CC0 1.0) Public Domain Dedication",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/pokulo/errno_converter"
+"Bug Tracker" = "https://github.com/pokulo/errno_converter/issues"
+
+[project.scripts]
+"errno_converter" = errno_converter:main
