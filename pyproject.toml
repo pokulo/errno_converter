@@ -19,4 +19,4 @@ classifiers = [
 "Bug Tracker" = "https://github.com/pokulo/errno_converter/issues"
 
 [project.scripts]
-"errno_converter" = errno_converter:main
+"errno_converter" = "errno_converter:main"
