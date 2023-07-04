@@ -25,5 +25,6 @@ class ErrnoConverter(Converter):
     def number2description(number):
         return os.strerror(number)
 
+
 def main():
     return ErrnoConverter.parse()

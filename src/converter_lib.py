@@ -39,22 +39,28 @@ class Converter(object):
         """
 
         project_dir = os.path.dirname(__file__)
-        with open(os.devnull, 'wb') as devnull:
-            version = subprocess.check_output(['git', 'describe', '--tags'], stderr=devnull, cwd=project_dir)
+        with open(os.devnull, "wb") as devnull:
+            version = subprocess.check_output(
+                ["git", "describe", "--tags"], stderr=devnull, cwd=project_dir
+            )
             version = version.rstrip()
-        if hasattr(version, 'decode'):
-            version = version.decode('utf-8')
+        if hasattr(version, "decode"):
+            version = version.decode("utf-8")
         print(f"{sys.argv[0]} version {version}")
 
     @classmethod
     def print_help(cls):
-        print("{cmd} [-v] list|<{name}-number>|<{name}-name>".format(cmd=sys.argv[0], name=cls.NAME))
+        print(
+            "{cmd} [-v] list|<{name}-number>|<{name}-name>".format(
+                cmd=sys.argv[0], name=cls.NAME
+            )
+        )
 
     @classmethod
     def convert(cls, number=None, code=None, verbose=False):
         """
-        :param int number: 
-        :param str code: 
+        :param int number:
+        :param str code:
         :param bool verbose:
         :rtype: str
         """
@@ -73,7 +79,6 @@ class Converter(object):
 
     @classmethod
     def parse(cls):
-
         if len(sys.argv) < 2:
             cls.print_help()
             exit()
@@ -96,13 +101,23 @@ class Converter(object):
         if code_or_number.lower() == "list":
             for n in cls.NUMBER_RANGE:
                 try:
-                    print(cls.convert(number=n, code=cls.number2code(n), verbose=bool(verbose_option)))
+                    print(
+                        cls.convert(
+                            number=n,
+                            code=cls.number2code(n),
+                            verbose=bool(verbose_option),
+                        )
+                    )
                 except Exception as e:
                     invalids[n] = e
 
         elif code_or_number.isdigit():
             try:
-                print(cls.convert(number=int(code_or_number), verbose=bool(verbose_option)))
+                print(
+                    cls.convert(
+                        number=int(code_or_number), verbose=bool(verbose_option)
+                    )
+                )
             except Exception as e:
                 invalids[code_or_number] = e
 
@@ -113,7 +128,8 @@ class Converter(object):
                 if verbose_option:
                     print(
                         "No {name} matched the input {i!r} ({e}). Try to match as re:".format(
-                             name=cls.NAME,          i=code_or_number, e=e),
+                            name=cls.NAME, i=code_or_number, e=e
+                        ),
                         file=sys.stderr,
                     )
                 search = re.compile(code_or_number, flags=re.IGNORECASE)
@@ -121,8 +137,19 @@ class Converter(object):
                     try:
                         number = cls.code2number(att)
                         desc = cls.number2description(number)
-                        if search.search(att) or search.search(str(number)) or search.search(desc) and bool(verbose_option):
-                            print(cls.convert(number=number, code=att, verbose=bool(verbose_option)))
+                        if (
+                            search.search(att)
+                            or search.search(str(number))
+                            or search.search(desc)
+                            and bool(verbose_option)
+                        ):
+                            print(
+                                cls.convert(
+                                    number=number,
+                                    code=att,
+                                    verbose=bool(verbose_option),
+                                )
+                            )
                     except:
                         pass
 
