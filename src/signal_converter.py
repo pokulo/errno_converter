@@ -1,7 +1,7 @@
 import signal
 from typing import Sequence
 
-from converter_lib import Converter
+from converter_lib import Converter, Parser
 
 
 class SignalConverter(Converter):
@@ -26,4 +26,4 @@ class SignalConverter(Converter):
 
 
 def main() -> None:
-    return SignalConverter.parse()
+    return Parser.parse(SignalConverter)

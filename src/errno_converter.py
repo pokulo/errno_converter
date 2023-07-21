@@ -1,7 +1,7 @@
 import os
 import errno
 
-from converter_lib import Converter
+from converter_lib import Converter, Parser
 
 
 class ErrnoConverter(Converter):
@@ -26,4 +26,4 @@ class ErrnoConverter(Converter):
 
 
 def main() -> None:
-    return ErrnoConverter.parse()
+    return Parser.parse(ErrnoConverter)

@@ -1,7 +1,7 @@
 import http
 from typing import Sequence
 
-from converter_lib import Converter
+from converter_lib import Converter, Parser
 
 
 class HttpConverter(Converter):
@@ -26,4 +26,4 @@ class HttpConverter(Converter):
 
 
 def main() -> None:
-    return HttpConverter.parse()
+    return Parser.parse(HttpConverter)
