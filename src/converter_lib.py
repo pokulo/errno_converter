@@ -69,13 +69,12 @@ class Converter(object):
 
         if verbose:
             return "{n:3d} - {c:15}: {d}".format(n=n, c=c, d=cls.number2description(n))
+        if code is None:
+            return c
+        elif number is None:
+            return str(n)
         else:
-            if code is None:
-                return c
-            elif number is None:
-                return str(n)
-            else:
-                return "{n:3d} - {c}".format(n=n, c=c)
+            return "{n:3d} - {c}".format(n=n, c=c)
 
     @classmethod
     def parse(cls):
@@ -83,7 +82,7 @@ class Converter(object):
             cls.print_help()
             exit()
 
-        invalids = dict()
+        invalids = {}
         verbose_option = sys.argv[1]
         if verbose_option == "-v":
             if len(sys.argv) < 3:
@@ -155,6 +154,6 @@ class Converter(object):
 
         if invalids and verbose_option:
             if all(isinstance(e, (ValueError, KeyError)) for e in invalids.values()):
-                print("invalids: {}".format(set(invalids.keys())), file=sys.stderr)
+                print(f"invalids: {set(invalids.keys())}", file=sys.stderr)
             else:
-                print("invalids: {}".format(invalids), file=sys.stderr)
+                print(f"invalids: {invalids}", file=sys.stderr)
