@@ -1,6 +1,6 @@
 [project]
 name = "errno_converter"
-version = "0.1.4"
+version = "0.1.5"
 authors = [
   { name="Heinrich Kießling", email="heinrich@kiess.link" },
 ]

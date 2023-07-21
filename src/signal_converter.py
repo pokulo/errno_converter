@@ -1,29 +1,29 @@
-#!/usr/bin/env python3
-# coding=utf-8
 import signal
+from typing import Sequence
+
 from converter_lib import Converter
 
 
 class SignalConverter(Converter):
-    NAME = "signal"
-    NUMBER_RANGE = range(1, 65)
+    NAME: str = "signal"
+    NUMBER_RANGE: Sequence[int] = range(1, 65)
 
     @staticmethod
-    def number2code(number):
+    def number2code(number: int) -> str:
         return signal.Signals(int(number)).name
 
     @staticmethod
-    def code2number(code):
+    def code2number(code: str) -> int:
         return getattr(signal, code).value
 
     @staticmethod
-    def get_candidates():
+    def get_candidates() -> list[str]:
         return dir(signal)
 
     @staticmethod
-    def number2description(number):
-        return signal.strsignal(signal.Signals(int(number)))  # Python3.8
+    def number2description(number: int) -> str:
+        return signal.strsignal(signal.Signals(int(number))) or ""
 
 
-def main():
+def main() -> None:
     return SignalConverter.parse()

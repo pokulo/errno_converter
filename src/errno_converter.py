@@ -1,30 +1,29 @@
-#!/usr/bin/env python3
-# coding=utf-8
 import os
 import errno
+
 from converter_lib import Converter
 
 
 class ErrnoConverter(Converter):
-    NAME = "errno"
-    NUMBER_RANGE = range(1, 132)
+    NAME: str = "errno"
+    NUMBER_RANGE: range = range(1, 132)
 
     @staticmethod
-    def number2code(number):
+    def number2code(number: int) -> str:
         return errno.errorcode[int(number)]
 
     @staticmethod
-    def code2number(code):
+    def code2number(code: str) -> int:
         return getattr(errno, code)
 
     @staticmethod
-    def get_candidates():
+    def get_candidates() -> list[str]:
         return dir(errno)
 
     @staticmethod
-    def number2description(number):
+    def number2description(number: int) -> str:
         return os.strerror(number)
 
 
-def main():
+def main() -> None:
     return ErrnoConverter.parse()

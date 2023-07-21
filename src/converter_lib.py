@@ -1,42 +1,41 @@
-#!/usr/bin/env python3
-# coding=utf-8
-
-from enum import Enum
+import abc
 import logging
 import os
 import re
 import subprocess
 import sys
-
+from typing import Sequence
 
 logger = logging.getLogger(__name__)
 
 
-class Converter(object):
-    NAME = None
-    NUMBER_RANGE = ()
+class Converter(object, metaclass=abc.ABCMeta):
+    NAME: str = ""
+    NUMBER_RANGE: Sequence[int] = ()
 
     @staticmethod
-    def number2code(number):
-        raise NotImplementedError
+    @abc.abstractmethod
+    def number2code(number: int) -> str:
+        """Convert a single numerical code to its textual code, raise an Exception if impossible."""
 
     @staticmethod
-    def code2number(code):
-        raise NotImplementedError
+    @abc.abstractmethod
+    def code2number(code: str) -> int:
+        """Convert a textual code to its numerical code, raise an Exception if impossible."""
 
     @staticmethod
-    def number2description(number):
-        raise NotImplementedError
+    @abc.abstractmethod
+    def number2description(number: int) -> str:
+        """Convert a numerical code to its description (empty string if impossible)"""
 
     @staticmethod
-    def get_candidates():
-        raise NotImplementedError
+    @abc.abstractmethod
+    def get_candidates() -> list[str]:
+        """List all textual codes that can be converted."""
 
     @classmethod
     def print_version(cls):
-        """
-        Print Git project version by running ``git describe --tags`` in this project.
-        """
+        """Print Git project version by running ``git describe --tags`` in this project."""
 
         project_dir = os.path.dirname(__file__)
         with open(os.devnull, "wb") as devnull:
@@ -49,7 +48,8 @@ class Converter(object):
         print(f"{sys.argv[0]} version {version}")
 
     @classmethod
-    def print_help(cls):
+    def print_help(cls) -> None:
+        """Prints help text to cli."""
         print(
             "{cmd} [-v] list|<{name}-number>|<{name}-name>".format(
                 cmd=sys.argv[0], name=cls.NAME
@@ -57,27 +57,30 @@ class Converter(object):
         )
 
     @classmethod
-    def convert(cls, number=None, code=None, verbose=False):
-        """
-        :param int number:
-        :param str code:
-        :param bool verbose:
-        :rtype: str
-        """
-        n = cls.code2number(code) if number is None else number
-        c = cls.number2code(number) if code is None else code
+    def _convert(
+        cls, number: int | None = None, code: str | None = None, verbose: bool = False
+    ) -> str:
+        n = cls.code2number(code) if number is None and code is not None else number
+        c = cls.number2code(number) if number is not None and code is None else code
+
+        if n is None or c is None:
+            raise Exception("Either number or code must be provided.")
 
         if verbose:
-            return "{n:3d} - {c:15}: {d}".format(n=n, c=c, d=cls.number2description(n))
+            return f"{n:3d} - {c:15}: {cls.number2description(n)}"
+
         if code is None:
             return c
-        elif number is None:
+
+        if number is None:
             return str(n)
-        else:
-            return "{n:3d} - {c}".format(n=n, c=c)
+
+        return f"{n:3d} - {c}"
 
     @classmethod
-    def parse(cls):
+    def parse(cls) -> None:
+        """Parse cli arguments, convert code and print result."""
+
         if len(sys.argv) < 2:
             cls.print_help()
             exit()
@@ -101,7 +104,7 @@ class Converter(object):
             for n in cls.NUMBER_RANGE:
                 try:
                     print(
-                        cls.convert(
+                        cls._convert(
                             number=n,
                             code=cls.number2code(n),
                             verbose=bool(verbose_option),
@@ -111,18 +114,15 @@ class Converter(object):
                     invalids[n] = e
 
         elif code_or_number.isdigit():
+            number = int(code_or_number)
             try:
-                print(
-                    cls.convert(
-                        number=int(code_or_number), verbose=bool(verbose_option)
-                    )
-                )
+                print(cls._convert(number=number, verbose=bool(verbose_option)))
             except Exception as e:
-                invalids[code_or_number] = e
+                invalids[number] = e
 
         else:
             try:
-                print(cls.convert(code=code_or_number, verbose=bool(verbose_option)))
+                print(cls._convert(code=code_or_number, verbose=bool(verbose_option)))
             except Exception as e:
                 if verbose_option:
                     print(
@@ -143,7 +143,7 @@ class Converter(object):
                             and bool(verbose_option)
                         ):
                             print(
-                                cls.convert(
+                                cls._convert(
                                     number=number,
                                     code=att,
                                     verbose=bool(verbose_option),
