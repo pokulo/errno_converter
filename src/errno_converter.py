@@ -1,7 +1,8 @@
 import os
 import errno
 
-from converter_lib import Converter, Parser
+from lib.converter import Converter
+from lib.parser import Parser
 
 
 class ErrnoConverter(Converter):

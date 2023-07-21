@@ -1,37 +1,14 @@
-import abc
 import logging
 import os
 import re
 import subprocess
 import sys
-from typing import Sequence
+from importlib.metadata import version as get_version, PackageNotFoundError
+
+from .converter import Converter
+
 
 logger = logging.getLogger(__name__)
-
-
-class Converter(object, metaclass=abc.ABCMeta):
-    NAME: str = ""
-    NUMBER_RANGE: Sequence[int] = ()
-
-    @staticmethod
-    @abc.abstractmethod
-    def number2code(number: int) -> str:
-        """Convert a single numerical code to its textual code, raise an Exception if impossible."""
-
-    @staticmethod
-    @abc.abstractmethod
-    def code2number(code: str) -> int:
-        """Convert a textual code to its numerical code, raise an Exception if impossible."""
-
-    @staticmethod
-    @abc.abstractmethod
-    def number2description(number: int) -> str:
-        """Convert a numerical code to its description (empty string if impossible)"""
-
-    @staticmethod
-    @abc.abstractmethod
-    def get_candidates() -> list[str]:
-        """List all textual codes that can be converted."""
 
 
 class Parser:
@@ -39,14 +16,17 @@ class Parser:
     def _print_version():
         """Print Git project version by running ``git describe --tags`` in this project."""
 
-        project_dir = os.path.dirname(__file__)
-        with open(os.devnull, "wb") as devnull:
-            version = subprocess.check_output(
-                ["git", "describe", "--tags"], stderr=devnull, cwd=project_dir
-            )
-            version = version.rstrip()
-        if hasattr(version, "decode"):
-            version = version.decode("utf-8")
+        try:
+            version = get_version("errno-converter")
+        except PackageNotFoundError:
+            project_dir = os.path.dirname(__file__)
+            with open(os.devnull, "wb") as devnull:
+                version = subprocess.check_output(
+                    ["git", "describe", "--tags"], stderr=devnull, cwd=project_dir
+                )
+                version = version.rstrip()
+            if hasattr(version, "decode"):
+                version = version.decode("utf-8")
         print(f"{sys.argv[0]} version {version}")
 
     @staticmethod

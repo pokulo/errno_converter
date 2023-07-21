@@ -1,7 +1,8 @@
 import signal
 from typing import Sequence
 
-from converter_lib import Converter, Parser
+from lib.converter import Converter
+from lib.parser import Parser
 
 
 class SignalConverter(Converter):
