@@ -89,6 +89,9 @@ invalids: {16, 32, 33, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 4
 ```
 
 # Installation
+
+This package is on [pypi:errno-converter](https://pypi.org/project/errno-converter/) 
+
 ```bash
 pip install errno-converter
 ```
