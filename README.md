@@ -1,8 +1,7 @@
 # errno_converter & signal_converter & http_converter
 As simple command line tool to convert error numbers (of **C errno.h**), **signal**
 numbers and HTTP-Status-Codes to human readable strings or back to numbers.
-This tool makes use of `errno`, `signal` and `http` module of Python 3.8 
-standard library (Python 3.8 added support for verbose signal descriptions).
+This tool makes use of `errno`, `signal` and `http` module of the python standard library.
 
 ## Example usage of `errno_converter`:
 ```bash
