@@ -1,6 +1,6 @@
 [project]
 name = "errno_converter"
-version = "0.2.0"
+version = "0.2.1"
 authors = [
   { name="Heinrich Kießling", email="heinrich@kiess.link" },
 ]
@@ -25,10 +25,3 @@ classifiers = [
 
 [tool.uv]
 package = true
-
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
-
-[tool.hatch.build.targets.wheel]
-packages = ["src"]
